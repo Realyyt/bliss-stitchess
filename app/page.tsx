@@ -135,7 +135,15 @@ export default function HomePage() {
       {/* Header */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="text-2xl font-bold text-gray-900">Bliss Stitches</div>
+          <div className="flex items-center">
+            <Image
+              src="/7.png"
+              alt="Bliss Stitches Logo"
+              width={100}
+              height={100}
+              className="mr-2"
+            />
+          </div>
           <nav className="hidden md:block">
             <ul className="flex space-x-8">
               {[
