@@ -3,8 +3,8 @@
 import Image from 'next/image'
 import { Button } from "@/app/components/ui/button"
 import { Card, CardContent } from "@/app/components/ui/card"
-import { Scissors, Shirt, Ruler , Star } from 'lucide-react'
-import { useRef, useEffect } from 'react'
+import { Scissors, Shirt, Ruler , Star, Menu, X } from 'lucide-react'
+import { useRef, useEffect, useState } from 'react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { TextureLoader } from 'three'
@@ -42,6 +42,15 @@ const projects: Project[] = [
 
 export default function HomePage() {
   const creationsRef = useRef<HTMLDivElement>(null)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useEffect(() => {
     const setupCarousel = (ref: React.RefObject<HTMLDivElement>, images: string[]) => {
@@ -118,10 +127,13 @@ export default function HomePage() {
     ])
   }, [])
 
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
+
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId)
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' })
+      setIsMenuOpen(false)
     }
   }
 
@@ -134,41 +146,60 @@ export default function HomePage() {
     >
       {/* Header */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div className="container mx-auto px-4 py-2 flex justify-between items-center">
           <div className="flex items-center">
-            <Image
-              src="/7.png"
-              alt="Bliss Stitches Logo"
-              width={100}
-              height={100}
-              className="mr-2"
-            />
+            <div className={`relative ${isMobile ? 'w-[60px] h-[60px]' : 'w-[100px] h-[100px]'}`}>
+              <Image
+                src="/7.png"
+                alt="Bliss Stitches Logo"
+                fill
+                style={{ objectFit: 'contain' }}
+                className="mr-2"
+              />
+            </div>
           </div>
           <nav className="hidden md:block">
             <ul className="flex space-x-8">
-              {[
-                { name: 'Home', id: 'home' },
-                { name: 'About', id: 'about' },
-                { name: 'Services', id: 'services' },
-                { name: 'Gallery', id: 'gallery' },
-                { name: 'Contact', id: 'contact' }
-              ].map((item) => (
-                <li key={item.name}>
+              {['Home', 'About', 'Services', 'Gallery', 'Contact'].map((item) => (
+                <li key={item}>
                   <a
-                    href={`#${item.id}`}
+                    href={`#${item.toLowerCase()}`}
                     onClick={(e) => {
                       e.preventDefault()
-                      scrollToSection(item.id)
+                      scrollToSection(item.toLowerCase())
                     }}
                     className="text-gray-600 hover:text-gray-900 transition-colors duration-200"
                   >
-                    {item.name}
+                    {item}
                   </a>
                 </li>
               ))}
             </ul>
           </nav>
+          <button className="md:hidden" onClick={toggleMenu}>
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
+        {isMenuOpen && (
+          <div className="md:hidden">
+            <ul className="px-4 py-2">
+              {['Home', 'About', 'Services', 'Gallery', 'Contact'].map((item) => (
+                <li key={item} className="py-2">
+                  <a
+                    href={`#${item.toLowerCase()}`}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      scrollToSection(item.toLowerCase())
+                    }}
+                    className="text-gray-600 hover:text-gray-900 transition-colors duration-200"
+                  >
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </header>
 
       {/* Hero Section */}
