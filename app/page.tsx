@@ -370,8 +370,9 @@ export default function HomePage() {
             <div>
               <h3 className="text-2xl font-bold mb-6">Follow Us</h3>
               <div className="flex space-x-6">
-                {['Facebook',].map((social) => (
-                  <a key={social} href="#" className="text-gray-400 hover:text-white transition-colors duration-200">{social}</a>
+                {['Whatsapp',].map((social) => (
+                  <Link key={social} 
+                href="https://wa.me/2348147662294" className="text-gray-400 hover:text-white transition-colors duration-200">{social}</Link>
                 ))}
               </div>
             </div>
