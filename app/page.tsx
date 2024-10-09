@@ -3,13 +3,12 @@
 import Image from 'next/image'
 import { Button } from "@/app/components/ui/button"
 import { Card, CardContent } from "@/app/components/ui/card"
-import { ChevronRight, Star, Scissors, Shirt, Ruler } from 'lucide-react'
-import ClientSideComponent from './ClientSideComponent'
+import { Scissors, Shirt, Ruler , Star } from 'lucide-react'
 import { useRef, useEffect } from 'react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { TextureLoader } from 'three'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 
 interface Project {
@@ -275,7 +274,7 @@ export default function HomePage() {
             className="max-w-3xl mx-auto"
           >
             <blockquote className="text-2xl italic mb-8 leading-relaxed">
-              "Bliss Stitches has redefined luxury tailoring for me. Their attention to detail and commitment to perfection is unmatched."
+            &ldquo; Bliss Stitches has redefined luxury tailoring for me. Their attention to detail and commitment to perfection is unmatched.&ldquo;
             </blockquote>
             <div className="flex justify-center mb-6">
               {[1, 2, 3, 4, 5].map((_, index) => (
